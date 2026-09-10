@@ -21,7 +21,7 @@ I am on the 2026–27 academic job market. My research sits at the intersection 
 
 <details>
 <summary>Abstract</summary>
-Who bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. A heterogeneous macro-banking model with precautionary buffers, solved globally and estimated on within-bank impulse responses, rationalises both facts. A one-percentage-point tightening costs 2.4–2.9 percent of credit-market surplus. Risk weights and size tiers redistribute this burden but barely change its aggregate magnitude — a gross transition cost excluding the stability benefits of capital.
+Who bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. The buffer gradient extends well beyond the two percent of bank-quarters at the regulatory frontier — which a capital constraint alone cannot produce — and so identifies a cost of regulatory capital that is not risk-weighted. A heterogeneous macro-banking model built on that mechanism reproduces the gradient as an untargeted moment, 1.32 against 1.32 in the data. Statutory size tiers locate the exposed banks poorly, explaining 1.8% of the cross-sectional variance in regulatory slack. Risk weights and size tiers redistribute the burden of a tightening but barely change its aggregate magnitude — a gross transition cost excluding the stability benefits of capital.
 </details>
 
 ::: {.practice}
@@ -56,20 +56,6 @@ I have taught macroeconomics, econometrics, forecasting, and programming/numeric
 **Teaching evaluations:** overall X.X/5 (Economics 2, 2025) · X.X/5 (Programming & Numerical Methods, 2025) — [full reports](files/teaching-evaluations.pdf)
 -->
 
-## Research Communication
-
-Beyond the papers: plain-English summaries of every paper on the [Research](research.qmd) page, an [interactive explorer](explorer.qmd) of my household-debt results, and [public writing](writing.qmd) for general audiences.
-
-## Where to Find Me This Season
-
-<!-- EDIT: fill in your actual conference/market plans, e.g.:
-- Presenting at [Conference], [City], [Month 2026]
-- Available for interviews at the EEA European Job Market (Dec 2026) and ASSA (Jan 2027)
--->
-
-- [EDIT: conferences where you'll present this autumn]
-- [EDIT: which job markets you'll attend for interviews]
-
 ---
 
-*Last updated: July 2026. For the most recent versions of all papers, see [Research](research.qmd).*
+*Last updated: September 2026. For the most recent versions of all papers, see [Research](research.qmd).*

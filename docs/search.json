@@ -1572,7 +1572,7 @@
     "href": "students.html#office-hours-contact",
     "title": "Juan Zurita",
     "section": "Office Hours & Contact",
-    "text": "Office Hours & Contact\nOffice hours: Fridays 16:00–17:00, Office 2.11, School of Economics, 30 Buccleuch Place (during teaching weeks). Outside these hours, email me and suggest two or three times that work for you.\nWhen you email, it helps if you include:\n\nYour course and year (e.g., Economics 2, Year 2; MSc Economics).\nA specific question — the more precise you are, the faster and more useful my answer will be.\nFor coursework questions, what you have already tried.\n\nI normally reply within two working days during the semester."
+    "text": "Office Hours & Contact\nOffice hours: Fridays 15:00–16:00, Office 2.11, School of Economics, 30 Buccleuch Place (during teaching weeks). Outside these hours, email me and suggest two or three times that work for you.\nWhen you email, it helps if you include:\n\nYour course and year (e.g., Economics 2, Year 2; MSc Economics).\nA specific question — the more precise you are, the faster and more useful my answer will be.\nFor coursework questions, what you have already tried.\n\nI normally reply within two working days during the semester."
   },
   {
     "objectID": "students.html#letters-of-recommendation",
@@ -1635,7 +1635,7 @@
     "href": "jobmarket.html#job-market-paper",
     "title": "Job Market",
     "section": "Job Market Paper",
-    "text": "Job Market Paper\n\nWho Bears the Burden of Bank Capital Regulation? Buffers, Risk Weights, and the Supply of Credit\nJob Market Paper\n\nDownload PDF   Slides\n\n\n\nAbstract\n\nWho bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. A heterogeneous macro-banking model with precautionary buffers, solved globally and estimated on within-bank impulse responses, rationalises both facts. A one-percentage-point tightening costs 2.4–2.9 percent of credit-market surplus. Risk weights and size tiers redistribute this burden but barely change its aggregate magnitude — a gross transition cost excluding the stability benefits of capital.\n\n\nIn one paragraph: When regulators raise bank capital requirements, who actually pays the price? Using data on roughly 4,800 U.S. banks over twenty-five years, this paper documents two facts: commercial lending contracts more than real estate lending because it carries a higher risk weight, and banks with the thinnest voluntary capital buffers absorb the largest share of the contraction. A structural macro-banking model quantifies the welfare cost at 2.4–2.9 percent of credit-market surplus per percentage point of tightening. Redesigning risk weights or size tiers reshuffles who bears the burden but barely changes its total size — the aggregate cost is driven by the level of requirements, not their architecture.\n\n\n📄 My Research Agenda — a narrative account of the questions, methods, and findings that connect my projects."
+    "text": "Job Market Paper\n\nWho Bears the Burden of Bank Capital Regulation? Buffers, Risk Weights, and the Supply of Credit\nJob Market Paper\n\nDownload PDF   Slides\n\n\n\nAbstract\n\nWho bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. The buffer gradient extends well beyond the two percent of bank-quarters at the regulatory frontier — which a capital constraint alone cannot produce — and so identifies a cost of regulatory capital that is not risk-weighted. A heterogeneous macro-banking model built on that mechanism reproduces the gradient as an untargeted moment, 1.32 against 1.32 in the data. Statutory size tiers locate the exposed banks poorly, explaining 1.8% of the cross-sectional variance in regulatory slack. Risk weights and size tiers redistribute the burden of a tightening but barely change its aggregate magnitude — a gross transition cost excluding the stability benefits of capital.\n\n\nIn one paragraph: When regulators raise bank capital requirements, who actually pays the price? Using data on roughly 4,800 U.S. banks over twenty-five years, this paper documents two facts: commercial lending contracts more than real estate lending because it carries a higher risk weight, and banks with the thinnest voluntary capital buffers absorb the largest share of the contraction. A structural macro-banking model quantifies the welfare cost at 2.4–2.9 percent of credit-market surplus per percentage point of tightening. Redesigning risk weights or size tiers reshuffles who bears the burden but barely changes its total size — the aggregate cost is driven by the level of requirements, not their architecture.\n\n\n📄 My Research Agenda — a narrative account of the questions, methods, and findings that connect my projects."
   },
   {
     "objectID": "jobmarket.html#application-materials",
@@ -1656,21 +1656,7 @@
     "href": "jobmarket.html#teaching",
     "title": "Job Market",
     "section": "Teaching",
-    "text": "Teaching\nI have taught macroeconomics, econometrics, forecasting, and programming/numerical methods at the University of Edinburgh, UTS, ANU, and UCA — see Teaching for the full list and my open course materials: Programming & Numerical Methods and Deep Learning for Macroeconomics (interactive notebooks used by my students)."
-  },
-  {
-    "objectID": "jobmarket.html#research-communication",
-    "href": "jobmarket.html#research-communication",
-    "title": "Job Market",
-    "section": "Research Communication",
-    "text": "Research Communication\nBeyond the papers: plain-English summaries of every paper on the Research page, an interactive explorer of my household-debt results, and public writing for general audiences."
-  },
-  {
-    "objectID": "jobmarket.html#where-to-find-me-this-season",
-    "href": "jobmarket.html#where-to-find-me-this-season",
-    "title": "Job Market",
-    "section": "Where to Find Me This Season",
-    "text": "Where to Find Me This Season\n\n\n[EDIT: conferences where you’ll present this autumn]\n[EDIT: which job markets you’ll attend for interviews]\n\n\nLast updated: July 2026. For the most recent versions of all papers, see Research."
+    "text": "Teaching\nI have taught macroeconomics, econometrics, forecasting, and programming/numerical methods at the University of Edinburgh, UTS, ANU, and UCA — see Teaching for the full list and my open course materials: Programming & Numerical Methods and Deep Learning for Macroeconomics (interactive notebooks used by my students).\n\n\nLast updated: September 2026. For the most recent versions of all papers, see Research."
   },
   {
     "objectID": "explorer.html",
