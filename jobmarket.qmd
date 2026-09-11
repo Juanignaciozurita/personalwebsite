@@ -21,12 +21,37 @@ I am on the 2026–27 academic job market. My research sits at the intersection 
 
 <details>
 <summary>Abstract</summary>
-Who bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. The buffer gradient extends well beyond the two percent of bank-quarters at the regulatory frontier — which a capital constraint alone cannot produce — and so identifies a cost of regulatory capital that is not risk-weighted. A heterogeneous macro-banking model built on that mechanism reproduces the gradient as an untargeted moment, 1.32 against 1.32 in the data. Statutory size tiers locate the exposed banks poorly, explaining 1.8% of the cross-sectional variance in regulatory slack. Risk weights and size tiers redistribute the burden of a tightening but barely change its aggregate magnitude — a gross transition cost excluding the stability benefits of capital.
+Who bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. The buffer gradient extends well beyond the two percent of bank-quarters at the regulatory frontier—which a capital constraint alone cannot produce—and so identifies a cost of regulatory capital that is not risk-weighted. A heterogeneous macro-banking model built on that mechanism reproduces the gradient as an untargeted moment, 1.32 against 1.32 in the data. Statutory size tiers locate the exposed banks poorly, explaining 1.8% of the cross-sectional variance in regulatory slack. Risk weights and size tiers redistribute the burden of a tightening but barely change its aggregate magnitude—a gross transition cost excluding the stability benefits of capital.
 </details>
 
 ::: {.practice}
-**In one paragraph:** When regulators raise bank capital requirements, who actually pays the price? Using data on roughly 4,800 U.S. banks over twenty-five years, this paper documents two facts: commercial lending contracts more than real estate lending because it carries a higher risk weight, and banks with the thinnest voluntary capital buffers absorb the largest share of the contraction. A structural macro-banking model quantifies the welfare cost at 2.4–2.9 percent of credit-market surplus per percentage point of tightening. Redesigning risk weights or size tiers reshuffles who bears the burden but barely changes its total size — the aggregate cost is driven by the level of requirements, not their architecture.
+**In one paragraph:** Who bears the burden of bank capital regulation? Using narratively identified capital-requirement shocks and a quarterly panel of U.S. banks (1994–2019), we document two cross-sectional facts: within banks, commercial lending contracts more than real estate lending, reflecting differential risk weights; across banks, institutions with thin voluntary buffers cut lending most. The buffer gradient extends well beyond the two percent of bank-quarters at the regulatory frontier—which a capital constraint alone cannot produce—and so identifies a cost of regulatory capital that is not risk-weighted. A heterogeneous macro-banking model built on that mechanism reproduces the gradient as an untargeted moment, 1.32 against 1.32 in the data. Statutory size tiers locate the exposed banks poorly, explaining 1.8% of the cross-sectional variance in regulatory slack. Risk weights and size tiers redistribute the burden of a tightening but barely change its aggregate magnitude—a gross transition cost excluding the stability benefits of capital.
 :::
+
+<details>
+<summary>Three-Minute Speech</summary>
+Since the financial crisis, capital requirements have risen a lot. And the regime regulators built is deliberately differentiated — business loans carry higher risk weights than mortgages, and requirements step up at ten billion and fifty billion dollars of assets.
+
+Both of those design choices presume something: that regulators know where the burden of capital regulation actually falls.
+
+Now, there's a large literature on whether requirements are worth it. It computes an aggregate cost — how much credit or GDP you give up — and weighs it against fewer crises. That literature is good, and I don't argue with it. But it answers a question banks aren't asking. When banks object to higher requirements, the honest reply isn't "the benefits exceed the costs." It's that nobody has said clearly who pays them.
+
+That's the question in my title, and my answer is this. The burden is organised by two variables that appear on every bank's balance sheet — and in no statute.
+
+The first is the risk-weight composition of the loan portfolio. It determines which sectors absorb the contraction: commercial and industrial lending falls about a third more than real estate. The second is the voluntary capital buffer a bank holds above its requirement. It determines which banks absorb it: thin-buffer banks cut commercial lending about 1.3 times more than well-buffered ones.
+
+And here is the finding I'd want a supervisor to take away. The statute sorts banks by size. The mechanism sorts them by buffer. Those two sorts are almost unrelated. Statutory tier explains under two percent of the cross-sectional variance in regulatory slack, and eighty-six percent of the banks in the thinnest-buffer tercile face the lowest statutory requirement.
+
+So the instrument regulators actually control is aimed at nearly the wrong variable.
+
+I show this in two steps. Empirically, I trace narratively identified capital-requirement shocks through a quarterly panel of about forty-eight hundred US banks using local projections. Structurally, I build a heterogeneous banking model where funding frictions make banks hoard precautionary capital, so the distribution of regulatory slack is an equilibrium object rather than something I assume.
+
+The model reproduces the buffer gradient without targeting it — 1.32 in the model against 1.32 in the data.
+
+And the policy message is a separation. The level of requirements determines the aggregate cost — about 1.4 percent of credit-market surplus per percentage point. The design — risk weights, size tiers — barely moves that total. What design does is decide who pays.
+
+Debates about tailoring are debates about incidence. And current tailoring doesn't identify the people bearing it.
+</details>
 
 ::: {.research-agenda-banner}
 📄 **[My Research Agenda](files/research_agenda.pdf)** — a narrative account of the questions, methods, and findings that connect my projects.
