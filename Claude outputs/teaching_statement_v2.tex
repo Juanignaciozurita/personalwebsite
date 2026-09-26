@@ -1,0 +1,125 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{lmodern}
+\usepackage{upquote}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage[left=1.4cm, right=1.4cm, top=2.4cm, bottom=2.20cm]{geometry}
+\usepackage{times}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=cyan]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.9em}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+
+\let\oldheadrule\headrule
+\renewcommand{\headrule}{\color{BrickRed}\oldheadrule}
+\renewcommand{\headrulewidth}{1.5pt}
+
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+
+\fancypagestyle{firstpage}{%
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+\begin{document}
+
+% ---- Running header for pages 2+ ----
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Juan Zurita --- Teaching Statement}}
+\fancyfoot[C]{\thepage}
+
+% ---- Page 1: no header text, just the title block ----
+\thispagestyle{firstpage}
+
+\vspace{-0.2cm}
+
+\begin{center}
+{\LARGE {\color{BrickRed}{\textsc{Juan Zurita}}}} \\
+\vspace{0.5em}
+\textbf{{\Large \textsc{Teaching Statement}}}
+\\
+\vspace{0.5cm}
+{\small{\textcolor{blue}{juan.zurita@ed.ac.uk} \ $\cdot$ \href{https://juanignaciozurita.github.io/personalwebsite/}{\textcolor{blue}{juanignaciozurita.github.io/personalwebsite}}}}\\
+\vspace{-0.0cm}
+\begin{tabular}{c @{}}
+	\monthyeardate\today
+\end{tabular}
+\end{center}
+\vspace{-1cm}
+{\color{BrickRed}\rule{\textwidth}{2pt}}
+
+I teach economics as a quantitative, computational discipline. My courses---from large introductory lectures of up to 350 students to specialist Honours seminars---share a common design principle: students learn economic ideas best when they can build, estimate, and break the models themselves. Over fifteen years across Argentina, Australia, and the United Kingdom, I have taught macroeconomics, econometrics, forecasting, and programming to students ranging from first-year undergraduates to PhD candidates. At the University of Edinburgh, I have designed two new courses---\textit{Programming and Numerical Methods for Economics} and \textit{Deep Learning for Macroeconomics}---that equip economics students with the computational tools their research and careers increasingly demand.
+
+%==================================================================
+\subsection*{Teaching Philosophy}
+\vspace{-0.3cm}
+
+Three principles guide how I design and deliver a course.
+
+\textbf{Theory and computation together, not in sequence.} Economics students too often encounter mathematical models in lectures and empirical data in separate lab sessions, with little connection between the two. I structure my courses so that computation is the medium through which students engage with theory. In \textit{Programming and Numerical Methods}, for instance, students implement a Cobb-Douglas production function, compute its marginal products numerically and via automatic differentiation (JAX), and compare both to the analytical solution---all in a single session. The exercise teaches Python syntax while transforming abstract concepts like diminishing returns into observable, testable phenomena.
+
+\textbf{Concrete before abstract.} I introduce specific economic questions or real-world datasets before the general framework. In \textit{Economics 2} at Edinburgh, I open the fiscal policy module not with an abstract IS-LM derivation, but with an empirical question students lived through: ``Did the UK furlough scheme work?'' The formal framework then enters as a tool to evaluate the answer, giving students an intuitive mental anchor before engaging with the underlying algebra.
+
+\textbf{Active problem-solving in real time.} To prevent passive learning, I regularly interrupt lectures with short, targeted diagnostic exercises---such as predicting code output or identifying key parameter drivers. In larger introductory cohorts (up to 350 students), I use live interactive polling (e.g., Wooclap) to identify and address misconceptions in real time, making confusion visible early when it is easiest to correct.
+
+%==================================================================
+\subsection*{Course Design and Innovation}
+\vspace{-0.3cm}
+
+\paragraph{Programming and Numerical Methods for Economics (Honours, Edinburgh, 2024--present).}
+I designed this course to equip students with computational tools to solve, simulate, and estimate the quantitative models used in advanced research and Honours dissertations. The syllabus covers Python fundamentals, data manipulation with Pandas, numerical optimisation, root-finding, interpolation, automatic differentiation with JAX, and Monte Carlo methods. Students apply these techniques directly to economic problems: interpolating value functions in consumption-savings decisions, estimating impulse responses from VARs, and computing numerical elasticities. All lecture materials, interactive Jupyter notebooks, and problem sets are publicly accessible via my \href{https://juanignaciozurita.github.io/personalwebsite/courses/pnm/index.html}{course website}.
+
+\paragraph{Deep Learning for Macroeconomics (Edinburgh).}
+A seminar-style course introducing neural-network methods for solving and estimating macroeconomic models. Students work through interactive notebooks covering feedforward networks, recurrent architectures, and applications to dynamic programming and likelihood-free inference. The course responds to growing demand in the profession for researchers who can bridge machine learning and structural macroeconomics---a gap few economics departments currently fill.
+
+%==================================================================
+\subsection*{Core Teaching Experience}
+\vspace{-0.3cm}
+
+\paragraph{Macroeconomics (Undergraduate and Postgraduate).} I have taught macroeconomics across all levels. At Edinburgh, I lecture \textit{Economics 2} (core second-year macroeconomics, approximately 350 students, 2024--2026), covering national accounting, IS-LM, monetary and fiscal policy, and open-economy dynamics. At the University of Technology Sydney (UTS), I taught \textit{Intermediate Macroeconomics}, \textit{Advanced Macroeconomics} (Honours), and \textit{Macroeconomics 2} (PhD level), covering dynamic programming, incomplete markets, and quantitative solution methods. At the Catholic University of Argentina (UCA, 2011--2015), I taught \textit{History of Economic Thought}, tracing macroeconomic theory from classical foundations through Keynesian synthesis to modern DSGE modelling.
+
+\paragraph{Econometrics and Forecasting.} At the Australian National University (ANU, 2023), I taught \textit{Economic and Business Forecasting}, covering time-series analysis, VAR estimation, and empirical forecast evaluation. At Edinburgh (2026), I teach \textit{Applications of Econometrics} (Honours), where students use regression, instrumental variables, and panel-data methods to replicate published empirical results.
+
+\paragraph{Central Banking and Financial Policy.} At UTS (2024), I taught \textit{Central Banking and Monetary Policy}, drawing directly on my research in monetary transmission and bank balance sheets. Students analysed central-bank communications, estimated Taylor rules, and evaluated the distributional implications of quantitative easing. My published work on how household debt alters the transmission mechanism of monetary policy (\textit{Macroeconomic Dynamics}, 2026) provided case-study material for the course, connecting frontier research to classroom learning.
+
+%==================================================================
+\subsection*{Supervision}
+\vspace{-0.3cm}
+
+I supervise Honours and Master's dissertations at Edinburgh, guiding students through topic selection, data collection, empirical identification, and structural estimation. Supervised student projects include the macroeconomic impact of housing-market shocks, monetary policy pass-through to mortgage rates, and machine-learning applications in inflation forecasting. I find supervision among the most rewarding parts of the job---it is where students transition from learning established techniques to producing original analysis, and where my research in credit markets and banking generates a natural pipeline of dissertation topics at the intersection of macro, finance, and applied econometrics.
+
+%==================================================================
+\subsection*{Teaching Across Cultural and Institutional Contexts}
+\vspace{-0.3cm}
+
+Teaching in Argentina, Australia, and Scotland has given me experience with very different student populations and academic traditions. At UCA, I taught in Spanish to students for whom economics was embedded in broader social-science training; at UTS, many students were international, combining economics with business or IT degrees, and valued applied, industry-relevant skills; at Edinburgh, I teach a mix of Scottish, English, EU, and international students in a research-intensive environment where rigorous analytical training is prized. Adapting to these contexts has taught me that clarity, structure, and genuine interest in student progress translate across any classroom---but that the examples, pacing, and assumed background must be calibrated to the cohort, not imported from the last institution.
+
+%==================================================================
+\subsection*{Contributions to Departmental Teaching}
+\vspace{-0.3cm}
+
+I can contribute to a department's teaching mission in three ways. First, I offer reliable coverage of core macroeconomics and econometrics at all levels---courses every department needs taught well. Second, I bring specialist courses in computational methods and machine learning for economics that few departments currently offer but many students increasingly need. Third, my research in credit markets and banking generates a natural pipeline of Honours and Master's dissertation topics at the intersection of macro, finance, and applied econometrics. Full teaching evaluation reports are available at \href{https://juanignaciozurita.github.io/personalwebsite/files/teaching_evaluations.pdf}{my teaching page}.
+
+\vspace{0.5em}
+\rule{5cm}{1pt} \\
+Juan Zurita\\
+Lecturer in Economics / Early Career Researcher\\
+School of Economics, University of Edinburgh\\
+30 Buccleuch Place, Newington, Edinburgh EH8 9JT, United Kingdom\\
+\textcolor{blue}{juan.zurita@ed.ac.uk} \ $\cdot$ \ \href{https://juanignaciozurita.github.io/personalwebsite/}{\textcolor{blue}{juanignaciozurita.github.io/personalwebsite}}
+
+\end{document}
