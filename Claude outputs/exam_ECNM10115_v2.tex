@@ -1,0 +1,735 @@
+\documentclass[11pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{parskip}
+\usepackage{tcolorbox}
+
+% ── Python listing style ─────────────────────────────────
+\definecolor{codegreen}{rgb}{0,0.5,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+\definecolor{solbg}{rgb}{0.93,0.95,0.98}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny\color{codegray},
+    numbersep=6pt,
+    frame=single,
+    framerule=0.4pt,
+    xleftmargin=1.5em,
+    language=Python,
+    morekeywords={as, True, False, None, with, lambda},
+    tabsize=4
+}
+\lstset{style=pythonstyle}
+
+% ── Solution environment ────────────────────────────────
+\newtcolorbox{solution}{
+    colback=solbg,
+    colframe=blue!40!black,
+    fonttitle=\bfseries,
+    title=Solution,
+    boxrule=0.5pt,
+    arc=2pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+    before skip=8pt,
+    after skip=10pt
+}
+
+% ── Headers / footers ────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small ECNM10115 --- Final Exam 2026/27}
+\rhead{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Convenience ──────────────────────────────────────────
+\newcommand{\mkpts}[1]{\hfill\textbf{[#1~marks]}}
+
+\begin{document}
+
+% ══════════════════════════════════════════════════════════
+%  TITLE
+% ══════════════════════════════════════════════════════════
+
+\begin{center}
+{\LARGE\bfseries Programming and Numerical Methods\\[2pt] for Economics (ECNM10115)}\\[10pt]
+{\large University of Edinburgh}\\[4pt]
+{\large Final Examination --- Academic Year 2026/27}\\[6pt]
+{\large\color{blue!60!black}\bfseries --- Model Solutions ---}\\[10pt]
+\rule{0.7\textwidth}{0.4pt}
+\end{center}
+
+\vspace{4pt}
+
+\noindent
+\begin{tabular}{@{}ll}
+\textbf{Date:}     & December 2026 \\
+\textbf{Duration:} & 2 hours \\
+\textbf{Total marks:} & 50 \\
+\textbf{Equipment:} & Word processor only (no Python environment) \\
+\end{tabular}
+
+\vspace{6pt}
+
+\noindent\textbf{Instructions.}
+\begin{itemize}[nosep,leftmargin=1.4em]
+\item Answer \textbf{all} questions.  Type your answers in the word processor provided.
+\item When asked to write code, type well-formatted Python code.  You will be assessed on correctness of logic and syntax; you do \emph{not} need to run the code.
+\item When asked for explanations, write concise prose (2--4 sentences unless stated otherwise).
+\item You may assume that \texttt{numpy}, \texttt{pandas}, \texttt{scipy}, and \texttt{matplotlib} are imported as usual:
+\begin{lstlisting}[numbers=none]
+import numpy as np
+import pandas as pd
+from scipy.optimize import fsolve, minimize
+import matplotlib.pyplot as plt
+\end{lstlisting}
+\end{itemize}
+
+\vspace{6pt}
+\hrule
+\vspace{12pt}
+
+% ══════════════════════════════════════════════════════════
+%  QUESTION 1 — Fundamentals & Debugging  [7 marks]
+% ══════════════════════════════════════════════════════════
+
+\section*{Question 1 --- Programming Fundamentals and Debugging \hfill [7 marks]}
+
+\subsection*{Part (a) \mkpts{3}}
+
+The following function is intended to simulate the \textbf{Solow growth model} for $T$ periods starting from an initial capital stock $k_0$.  The law of motion is
+\[
+k_{t+1} \;=\; s\,A\,k_t^{\alpha} + (1-\delta)\,k_t\,.
+\]
+The function should return the capital path $\{k_t\}_{t=0}^{T}$ and the output path $\{y_t\}_{t=0}^{T}$ where $y_t = A\,k_t^{\alpha}$.
+
+\medskip
+
+The code below contains \textbf{three errors}.  For each error, (i)~state the line number, (ii)~explain what is wrong, and (iii)~write the corrected line.
+
+\begin{lstlisting}
+def solow_simulate(k0, T, alpha, s, delta, A):
+    k = np.zeros(T)
+    k[0] = k0
+    for t in range(T):
+        k[t+1] = s * A * k[t]**alpha + delta * k[t]
+    y = A * k**A
+    return k, y
+\end{lstlisting}
+
+\begin{solution}
+\textbf{Error 1 --- Line 2:} \texttt{np.zeros(T)} allocates only $T$ elements (indices $0,\dots,T{-}1$), but we need $T{+}1$ values for $k_0,k_1,\dots,k_T$.  When $t=T{-}1$ the assignment \texttt{k[t+1] = k[T]} is out of bounds.
+
+\textbf{Corrected line 2:} \texttt{k = np.zeros(T + 1)}
+
+\medskip
+
+\textbf{Error 2 --- Line 5:} The depreciation term uses \texttt{delta * k[t]} instead of \texttt{(1 - delta) * k[t]}.  The law of motion requires the \emph{undepreciated} fraction $(1-\delta)\,k_t$.
+
+\textbf{Corrected line 5:} \texttt{k[t+1] = s * A * k[t]**alpha + (1 - delta) * k[t]}
+
+\medskip
+
+\textbf{Error 3 --- Line 6:} The exponent is \texttt{A} (the TFP parameter) instead of \texttt{alpha}.  Output is $y_t = A\,k_t^{\alpha}$, so the exponent must be $\alpha$.
+
+\textbf{Corrected line 6:} \texttt{y = A * k**alpha}
+\end{solution}
+
+\subsection*{Part (b) \mkpts{4}}
+
+Write a Python function \texttt{ces\_production(K, L, A, alpha, sigma)} that computes output from the CES production function:
+\[
+Y \;=\; A\Bigl(\alpha\, K^{\frac{\sigma-1}{\sigma}} + (1-\alpha)\, L^{\frac{\sigma-1}{\sigma}}\Bigr)^{\!\frac{\sigma}{\sigma-1}}.
+\]
+Your function must handle the special case $\sigma = 1$, where the CES reduces to the \textbf{Cobb--Douglas} form $Y = A\,K^{\alpha}\,L^{1-\alpha}$.  Include a brief docstring.
+
+\begin{solution}
+\begin{lstlisting}[numbers=none]
+def ces_production(K, L, A, alpha, sigma):
+    """Compute output from a CES production function.
+    Falls back to Cobb-Douglas when sigma = 1.
+    """
+    if sigma == 1:
+        return A * K**alpha * L**(1 - alpha)
+    else:
+        rho = (sigma - 1) / sigma
+        return A * (alpha * K**rho + (1 - alpha) * L**rho)**(1 / rho)
+\end{lstlisting}
+
+\textbf{Key points:} Define $\rho = (\sigma-1)/\sigma$ so the inner exponent is $\rho$ and the outer exponent is $1/\rho = \sigma/(\sigma-1)$.  The \texttt{if} guard is necessary because $\rho\to 0$ as $\sigma\to 1$, which causes division by zero.
+\end{solution}
+
+
+\newpage
+% ══════════════════════════════════════════════════════════
+%  QUESTION 2 — Stochastic Processes  [9 marks]
+% ══════════════════════════════════════════════════════════
+
+\section*{Question 2 --- Stochastic Processes and Simulation \hfill [9 marks]}
+
+\subsection*{Part (a) --- AR(1) processes \mkpts{4}}
+
+An AR(1) process is $y_t = \rho\, y_{t-1} + \varepsilon_t$, \; $\varepsilon_t \sim N(0,\sigma^2)$, \; $y_0=0$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Write a Python function \texttt{simulate\_ar1(rho, sigma, T)} that returns a NumPy array of $T{+}1$ values $(y_0, y_1, \dots, y_T)$.  Use \texttt{np.random.normal} to draw the shocks.
+\item For $|\rho| < 1$, derive the unconditional (long-run) variance $\operatorname{Var}(y_\infty)$.
+\item Write the theoretical autocorrelation at lag $k$: $\operatorname{Corr}(y_t, y_{t-k}) = \;?$
+\item Explain what happens when $\rho = 1$ and why this case is called a ``unit root''.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)}
+\begin{lstlisting}[numbers=none]
+def simulate_ar1(rho, sigma, T):
+    y = np.zeros(T + 1)
+    eps = np.random.normal(0, sigma, T)
+    for t in range(T):
+        y[t + 1] = rho * y[t] + eps[t]
+    return y
+\end{lstlisting}
+
+\textbf{(ii)} In the stationary regime, $\operatorname{Var}(y_t) = \operatorname{Var}(y_{t-1}) \equiv V$.  Taking variance of both sides ($\varepsilon_t$ is independent of $y_{t-1}$):
+\[
+V = \rho^2 V + \sigma^2 \quad\Longrightarrow\quad V(1-\rho^2) = \sigma^2 \quad\Longrightarrow\quad \boxed{\operatorname{Var}(y_\infty) = \frac{\sigma^2}{1-\rho^2}}\,.
+\]
+
+\textbf{(iii)} $\displaystyle\operatorname{Corr}(y_t,\, y_{t-k}) = \rho^{|k|}$. \quad (Autocorrelation decays geometrically with lag.)
+
+\medskip
+
+\textbf{(iv)} When $\rho=1$ the process becomes a \emph{random walk}: $y_t = y_{t-1} + \varepsilon_t$.  The variance grows without bound ($\operatorname{Var}(y_t) = t\,\sigma^2 \to \infty$), so no stationary distribution exists.  It is called a ``unit root'' because the characteristic polynomial of the AR(1) is $z - \rho = 0$, whose root is $z = \rho = 1$ --- i.e.\ the root lies exactly on the unit circle in the complex plane.
+\end{solution}
+
+\subsection*{Part (b) --- Markov chains \mkpts{3}}
+
+Consider a two-state Markov chain (Expansion, Recession) with transition matrix
+\[
+P = \begin{pmatrix} 0.90 & 0.10 \\ 0.30 & 0.70 \end{pmatrix}.
+\]
+GDP growth is $+2\%$ in Expansion and $-1\%$ in Recession.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Compute the stationary distribution $\boldsymbol{\pi}$ analytically by solving $\boldsymbol{\pi} P = \boldsymbol{\pi}$ with $\pi_0 + \pi_1 = 1$.  Show your working.
+\item Using $\boldsymbol{\pi}$, compute the long-run average GDP growth rate.
+\item Write a Python function \texttt{simulate\_markov(P, T, s0)} that simulates $T$ periods of the chain starting from state \texttt{s0}, using \texttt{np.random.choice} at each step.  Return an integer array of states.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} From $\boldsymbol{\pi}P = \boldsymbol{\pi}$:
+\begin{align*}
+\pi_0 &= 0.90\,\pi_0 + 0.30\,\pi_1 \\
+\pi_1 &= 0.10\,\pi_0 + 0.70\,\pi_1
+\end{align*}
+From the first equation: $0.10\,\pi_0 = 0.30\,\pi_1$, so $\pi_0 = 3\,\pi_1$.  Substituting into $\pi_0 + \pi_1 = 1$:
+\[
+3\pi_1 + \pi_1 = 1 \;\Longrightarrow\; \pi_1 = 0.25, \quad \pi_0 = 0.75.
+\]
+\[
+\boxed{\boldsymbol{\pi} = (0.75,\; 0.25)}
+\]
+
+\textbf{(ii)} Long-run average GDP growth:
+\[
+0.75 \times (+2\%) + 0.25 \times (-1\%) = 1.50\% - 0.25\% = \boxed{1.25\%}\,.
+\]
+
+\textbf{(iii)}
+\begin{lstlisting}[numbers=none]
+def simulate_markov(P, T, s0):
+    n_states = P.shape[0]
+    states = np.zeros(T + 1, dtype=int)
+    states[0] = s0
+    for t in range(T):
+        states[t + 1] = np.random.choice(n_states, p=P[states[t]])
+    return states
+\end{lstlisting}
+\end{solution}
+
+\subsection*{Part (c) --- Comparing persistence \mkpts{2}}
+
+Consider two AR(1) processes, both with $\sigma=1$:
+\begin{itemize}[nosep]
+\item Process A: $\rho = 0.5$
+\item Process B: $\rho = 0.95$
+\end{itemize}
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Compute the long-run variance of each process.  Which is more volatile in the long run and why?
+\item The \textbf{half-life} of a shock is the number of periods until a unit shock decays to half its initial impact.  Show that the half-life is $h = \ln 2 \,/\, \ln(1/|\rho|)$.  Compute $h$ for both processes.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} Using $\operatorname{Var}(y_\infty) = \sigma^2/(1-\rho^2)$ with $\sigma=1$:
+
+Process A: $V_A = 1/(1-0.25) = 1/0.75 = 1.333$.
+
+Process B: $V_B = 1/(1-0.9025) = 1/0.0975 = 10.256$.
+
+Process B is far more volatile in the long run --- higher persistence amplifies the accumulated effect of shocks.
+
+\medskip
+
+\textbf{(ii)} After a unit shock at time $0$, the expected response at time $h$ is $\rho^h$.  Setting $\rho^h = 1/2$:
+\[
+h\,\ln|\rho| = -\ln 2 \quad\Longrightarrow\quad h = \frac{\ln 2}{\ln(1/|\rho|)} = \frac{-\ln 2}{\ln|\rho|}\,.
+\]
+Process A: $h = \ln 2/\ln 2 = 1$ period.
+
+Process B: $h = \ln 2/\ln(1/0.95) = 0.6931/0.05129 \approx 13.5$ periods.
+\end{solution}
+
+
+\newpage
+% ══════════════════════════════════════════════════════════
+%  QUESTION 3 — Monte Carlo Methods  [8 marks]
+% ══════════════════════════════════════════════════════════
+
+\section*{Question 3 --- Monte Carlo Methods \hfill [8 marks]}
+
+\subsection*{Part (a) --- Estimating $\pi$ by simulation \mkpts{3}}
+
+A classic Monte Carlo exercise estimates $\pi$ by generating random points in the unit square $[0,1]^2$ and counting how many fall inside the quarter circle of radius~1.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Explain why $\pi/4 = P(X^2+Y^2 \le 1)$ when $X, Y \sim U(0,1)$ independently.
+\item Write a Python function \texttt{estimate\_pi(n)} that estimates $\pi$ using $n$ random points.
+\item If $n=10\,000$ and $7\,856$ points land inside the quarter circle, what is your estimate of $\pi$?
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The area of the quarter circle of radius 1 is $\pi\cdot 1^2/4 = \pi/4$.  The area of the unit square is 1.  Since $(X,Y)$ is uniform over the square, the probability of falling inside the quarter circle equals the ratio of areas: $P(X^2+Y^2\le 1) = \pi/4$.
+
+\medskip
+
+\textbf{(ii)}
+\begin{lstlisting}[numbers=none]
+def estimate_pi(n):
+    x = np.random.uniform(0, 1, n)
+    y = np.random.uniform(0, 1, n)
+    inside = np.sum(x**2 + y**2 <= 1)
+    return 4 * inside / n
+\end{lstlisting}
+
+\textbf{(iii)} $\hat{\pi} = 4 \times 7856/10000 = 4 \times 0.7856 = 3.1424$.
+\end{solution}
+
+\subsection*{Part (b) --- Convergence of Monte Carlo estimators \mkpts{2}}
+
+Consider the Monte Carlo estimator $\hat{\theta}_n = \frac{1}{n}\sum_{i=1}^{n} g(X_i)$ for $\theta = E[g(X)]$ with $X_i \overset{\text{iid}}{\sim} N(0,1)$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item For $g(x) = e^x$, what is the true value of $\theta$?  (\textit{Hint}: the moment generating function of $N(0,1)$ is $M(t) = e^{t^2/2}$.)
+\item Explain why the standard error of $\hat{\theta}_n$ decreases as $1/\sqrt{n}$.  If you quadruple the number of draws, by what factor does the standard error decrease?
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} $\theta = E[e^X] = M(1) = e^{1/2} = \sqrt{e} \approx 1.6487$.
+
+\medskip
+
+\textbf{(ii)} By the CLT, $\hat{\theta}_n$ has variance $\operatorname{Var}(g(X))/n$, so $\text{SE} = \sigma_g / \sqrt{n}$.  The $1/\sqrt{n}$ rate comes from averaging $n$ iid terms.  Quadrupling $n$ halves the SE: $1/\sqrt{4n} = \tfrac{1}{2}\cdot 1/\sqrt{n}$.  This means gaining one extra decimal digit of precision requires roughly $100\times$ the draws.
+\end{solution}
+
+\subsection*{Part (c) --- Antithetic variates \mkpts{3}}
+
+The antithetic variates estimator for $\theta = E[e^X]$ with $X\sim N(0,1)$ replaces independent pairs $(X_i, X_j)$ with correlated pairs $(X_i, -X_i)$:
+\[
+\hat{\theta}_n^{\text{AV}} = \frac{1}{n}\sum_{i=1}^{n}\frac{e^{X_i}+e^{-X_i}}{2}\,.
+\]
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Explain in 2--3 sentences \emph{why} this reduces variance.  What property of the standard normal distribution does it exploit?
+\item Write a Python function \texttt{mc\_antithetic(n)} that returns the antithetic variates estimate of $E[e^X]$ using $n$ draws.
+\item State the Law of Large Numbers result that guarantees $\hat{\theta}_n^{\text{AV}} \to \theta$ as $n\to\infty$.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The standard normal distribution is \emph{symmetric} about zero, so $X$ and $-X$ have the same distribution; thus $e^{-X_i}$ is a valid draw from the same estimator.  When $X_i$ is large, $e^{X_i}$ is large but $e^{-X_i}$ is small, so the two terms are \emph{negatively correlated}: $\operatorname{Cov}(e^{X}, e^{-X}) < 0$.  Averaging $\tfrac{1}{2}(e^{X_i} + e^{-X_i})$ exploits this negative covariance to reduce the variance compared to using two independent draws.
+
+\medskip
+
+\textbf{(ii)}
+\begin{lstlisting}[numbers=none]
+def mc_antithetic(n):
+    X = np.random.normal(0, 1, n)
+    return np.mean((np.exp(X) + np.exp(-X)) / 2)
+\end{lstlisting}
+
+\textbf{(iii)} The \textbf{(Strong) Law of Large Numbers}: since $Z_i = \tfrac{1}{2}(e^{X_i}+e^{-X_i})$ are iid (each $X_i$ is drawn independently) with $E[Z_i] = \theta$ and finite variance, the sample mean $\hat{\theta}_n^{\text{AV}} = \tfrac{1}{n}\sum Z_i$ converges almost surely to $\theta$ as $n\to\infty$.
+\end{solution}
+
+
+\newpage
+% ══════════════════════════════════════════════════════════
+%  QUESTION 4 — Root-Finding & Fixed-Point  [9 marks]
+% ══════════════════════════════════════════════════════════
+
+\section*{Question 4 --- Root-Finding and Fixed-Point Iteration \hfill [9 marks]}
+
+\subsection*{Part (a) --- Newton's method and the IRR \mkpts{3}}
+
+Newton's method for $f(x)=0$ uses the iteration $x_{n+1} = x_n - f(x_n)/f'(x_n)$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Write a Python function \texttt{newtons\_method(f, fprime, x0, tol=1e-8, max\_iter=100)} that implements Newton's method.  It should return the root and the number of iterations.  The loop should stop when $|f(x_n)| < \texttt{tol}$.
+\item The Net Present Value of the cash-flow stream $C=(-1000, 300, 300, 300, 300, 300)$ is
+\[
+\text{NPV}(r) = \sum_{t=0}^{5} \frac{C_t}{(1+r)^t}\,.
+\]
+Write the derivative $\text{NPV}'(r)$ as an analytical formula.  Then write the complete Python code (function definitions for NPV and NPV$'$, plus the call to your Newton solver) to find the Internal Rate of Return starting from $r_0 = 0.1$.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)}
+\begin{lstlisting}[numbers=none]
+def newtons_method(f, fprime, x0, tol=1e-8, max_iter=100):
+    x = x0
+    for i in range(1, max_iter + 1):
+        fx = f(x)
+        if abs(fx) < tol:
+            return x, i
+        x = x - fx / fprime(x)
+    return x, max_iter
+\end{lstlisting}
+
+\textbf{(ii)} Differentiating term by term:
+\[
+\text{NPV}'(r) = \sum_{t=1}^{5} \frac{-t\, C_t}{(1+r)^{t+1}}\,.
+\]
+(The $t=0$ term is constant and vanishes.)
+
+\begin{lstlisting}[numbers=none]
+C = [-1000, 300, 300, 300, 300, 300]
+
+def npv(r):
+    return sum(C[t] / (1 + r)**t for t in range(6))
+
+def npv_prime(r):
+    return sum(-t * C[t] / (1 + r)**(t + 1) for t in range(1, 6))
+
+irr, n_iter = newtons_method(npv, npv_prime, 0.1)
+# irr is approximately 0.1524 (15.24%)
+\end{lstlisting}
+\end{solution}
+
+\subsection*{Part (b) --- Comparative statics with \texttt{fsolve} \mkpts{3}}
+
+The Solow steady state satisfies $s\,k^{\alpha} = (n+\delta)\,k$.  Use $s=0.3$, $\alpha=0.33$, $n=0.02$, $\delta=0.05$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Define the residual function $g(k) = s\,k^{\alpha} - (n+\delta)\,k$ and write a one-line call to \texttt{fsolve} to find $k^*$.
+\item Derive the closed-form solution $k^* = \bigl(\tfrac{s}{n+\delta}\bigr)^{1/(1-\alpha)}$. Compute $k^*$ and $y^* = (k^*)^{\alpha}$ for the given parameters (show the numerical calculation).
+\item Write Python code that varies $s$ from $0.1$ to $0.5$ (using \texttt{np.linspace}) and stores the corresponding $k^*$ for each~$s$.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)}
+\begin{lstlisting}[numbers=none]
+def g(k, s=0.3, alpha=0.33, n=0.02, delta=0.05):
+    return s * k**alpha - (n + delta) * k
+
+k_star = fsolve(g, 1.0)[0]
+\end{lstlisting}
+
+\textbf{(ii)} At steady state $s\,k^{\alpha} = (n+\delta)\,k$.  Dividing both sides by $k$:
+\[
+s\,k^{\alpha-1} = n+\delta \;\Longrightarrow\; k^{\alpha-1} = \frac{n+\delta}{s} \;\Longrightarrow\; k^* = \left(\frac{s}{n+\delta}\right)^{\!\frac{1}{1-\alpha}}.
+\]
+Numerically:
+\[
+k^* = \left(\frac{0.3}{0.07}\right)^{1/0.67} = (4.2857)^{1.4925} \approx 8.78.
+\]
+\[
+y^* = (k^*)^{0.33} = (8.78)^{0.33} \approx 2.05.
+\]
+Check: $s\,y^* = 0.3 \times 2.05 = 0.615$ and $(n+\delta)\,k^* = 0.07 \times 8.78 = 0.615$. \checkmark
+
+\medskip
+
+\textbf{(iii)}
+\begin{lstlisting}[numbers=none]
+s_values = np.linspace(0.1, 0.5, 50)
+alpha, n, delta = 0.33, 0.02, 0.05
+k_stars = (s_values / (n + delta))**(1 / (1 - alpha))
+\end{lstlisting}
+\end{solution}
+
+\subsection*{Part (c) --- Fixed-point iteration \mkpts{3}}
+
+Fixed-point iteration solves $x = g(x)$ via $x_{n+1} = g(x_n)$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item State the Banach fixed-point theorem condition that guarantees convergence.
+\item A cobweb model gives the iteration $P_{t+1} = g(P_t) = \tfrac{8 - 2P_t}{3}$.  Find the fixed point $P^*$ algebraically.  Then compute $|g'(P^*)|$ and determine whether the iteration converges.
+\item In 2--3 sentences, explain the conceptual link between fixed-point iteration and \textbf{value function iteration} in dynamic programming.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The Banach fixed-point (contraction mapping) theorem states: if $g$ is a contraction on a closed subset of a complete metric space --- that is, there exists $L\in[0,1)$ such that $|g(x)-g(y)| \le L\,|x-y|$ for all $x,y$ in the domain (equivalently, $|g'(x)| \le L < 1$ in the differentiable case) --- then $g$ has a unique fixed point $x^*$ and the iteration $x_{n+1}=g(x_n)$ converges to it from any starting point.
+
+\medskip
+
+\textbf{(ii)} Setting $P^* = g(P^*)$:
+\[
+P^* = \frac{8-2P^*}{3} \;\Longrightarrow\; 3P^* = 8-2P^* \;\Longrightarrow\; 5P^*=8 \;\Longrightarrow\; \boxed{P^* = 1.6}\,.
+\]
+The derivative is $g'(P) = -2/3$, so $|g'(P^*)| = 2/3 < 1$.  Since the contraction condition is satisfied, the iteration \textbf{converges}.
+
+\medskip
+
+\textbf{(iii)} In dynamic programming, the Bellman equation $V = T(V)$ defines the value function $V$ as a fixed point of the Bellman operator $T$.  Value function iteration starts from an initial guess $V_0$ and iterates $V_{n+1} = T(V_n)$, which is exactly a fixed-point iteration in function space.  Convergence is guaranteed because the discounting condition ($\beta < 1$) ensures $T$ is a contraction mapping (by Blackwell's sufficient conditions).
+\end{solution}
+
+
+\newpage
+% ══════════════════════════════════════════════════════════
+%  QUESTION 5 — Optimisation  [9 marks]
+% ══════════════════════════════════════════════════════════
+
+\section*{Question 5 --- Optimisation \hfill [9 marks]}
+
+\subsection*{Part (a) --- Analytical utility maximisation \mkpts{4}}
+
+A consumer maximises Cobb--Douglas utility $U(x_1,x_2) = x_1^{\alpha}\,x_2^{1-\alpha}$ subject to the budget constraint $p_1 x_1 + p_2 x_2 = m$.  Use $\alpha=0.4$, $p_1=2$, $p_2=3$, $m=120$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Set up the Lagrangian $\mathcal{L} = x_1^{\alpha}\,x_2^{1-\alpha} - \lambda(p_1 x_1 + p_2 x_2 - m)$ and derive the first-order conditions with respect to $x_1$, $x_2$, and~$\lambda$.
+\item Show that the Marshallian demand functions are $x_1^* = \alpha\,m/p_1$ and $x_2^* = (1-\alpha)\,m/p_2$.
+\item Compute the optimal bundle $(x_1^*,\, x_2^*)$ for the given parameter values.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The Lagrangian is $\mathcal{L} = x_1^{\alpha}\,x_2^{1-\alpha} - \lambda(p_1 x_1 + p_2 x_2 - m)$.
+
+First-order conditions:
+\begin{align*}
+\frac{\partial \mathcal{L}}{\partial x_1} &= \alpha\, x_1^{\alpha-1}\, x_2^{1-\alpha} - \lambda\, p_1 = 0 \tag{1}\\
+\frac{\partial \mathcal{L}}{\partial x_2} &= (1-\alpha)\, x_1^{\alpha}\, x_2^{-\alpha} - \lambda\, p_2 = 0 \tag{2}\\
+\frac{\partial \mathcal{L}}{\partial \lambda} &= -(p_1 x_1 + p_2 x_2 - m) = 0 \tag{3}
+\end{align*}
+
+\textbf{(ii)} From (1): $\lambda = \frac{\alpha\, x_1^{\alpha-1}\, x_2^{1-\alpha}}{p_1}$.  From (2): $\lambda = \frac{(1-\alpha)\, x_1^{\alpha}\, x_2^{-\alpha}}{p_2}$.
+
+Setting equal and simplifying:
+\[
+\frac{\alpha\, x_2}{p_1} = \frac{(1-\alpha)\, x_1}{p_2} \quad\Longrightarrow\quad p_2\,x_2 = \frac{(1-\alpha)}{\alpha}\,p_1\,x_1\,.
+\]
+Substituting into the budget constraint (3):
+\[
+p_1 x_1 + \frac{(1-\alpha)}{\alpha}\,p_1 x_1 = m \;\Longrightarrow\; p_1 x_1 \cdot \frac{1}{\alpha} = m \;\Longrightarrow\; \boxed{x_1^* = \frac{\alpha\, m}{p_1}}\,.
+\]
+By symmetry (or substituting back): $\boxed{x_2^* = \frac{(1-\alpha)\,m}{p_2}}$.
+
+\medskip
+
+\textbf{(iii)} Plugging in $\alpha=0.4$, $p_1=2$, $p_2=3$, $m=120$:
+\[
+x_1^* = \frac{0.4 \times 120}{2} = 24, \qquad x_2^* = \frac{0.6 \times 120}{3} = 24.
+\]
+Optimal bundle: $\boxed{(x_1^*,\, x_2^*) = (24,\, 24)}$.
+\end{solution}
+
+\subsection*{Part (b) --- Numerical optimisation with \texttt{scipy} \mkpts{3}}
+
+Write complete Python code using \texttt{scipy.optimize.minimize} with \texttt{method='SLSQP'} to solve the problem in Part~(a) numerically.  Your code must include the objective function (negated, since \texttt{minimize} minimises), the budget constraint as an equality constraint, bounds ensuring $x_1, x_2 > 0$, an initial guess, and the \texttt{minimize} call.
+
+\begin{solution}
+\begin{lstlisting}[numbers=none]
+alpha = 0.4
+p1, p2, m = 2, 3, 120
+
+def neg_utility(x):
+    return -(x[0]**alpha * x[1]**(1 - alpha))
+
+def budget_constraint(x):
+    return m - p1 * x[0] - p2 * x[1]   # = 0 at feasibility
+
+x0 = [10.0, 10.0]
+bounds = [(0.01, None), (0.01, None)]
+constraints = {'type': 'eq', 'fun': budget_constraint}
+
+result = minimize(neg_utility, x0, method='SLSQP',
+                  bounds=bounds, constraints=constraints)
+x_star = result.x   # approximately [24.0, 24.0]
+\end{lstlisting}
+
+\textbf{Key points:} We negate utility because \texttt{minimize} finds the minimum.  The budget constraint is passed as an \texttt{'eq'} type (equality, meaning the function should equal zero).  Bounds keep both goods strictly positive to avoid $0^{\alpha}$ issues.
+\end{solution}
+
+\subsection*{Part (c) --- The Rosenbrock function \mkpts{2}}
+
+The Rosenbrock function is $f(x,y) = (1-x)^2 + 100\,(y-x^2)^2$.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item What is the global minimum value and where does it occur?
+\item Compare the \textbf{Nelder--Mead} and \textbf{BFGS} methods: which uses gradient information?  Which would you expect to converge faster on the Rosenbrock function, and why?
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The global minimum is $f(1,1) = 0$, occurring at $(x,y) = (1,1)$.  Both terms vanish there: $(1-1)^2 = 0$ and $(1-1^2)^2 = 0$.
+
+\medskip
+
+\textbf{(ii)} \textbf{BFGS} uses gradient information --- it is a quasi-Newton method that builds an approximate inverse Hessian from successive gradient evaluations.  \textbf{Nelder--Mead} is derivative-free (simplex method).  BFGS is expected to converge faster on the Rosenbrock function because the gradient and curvature information help it navigate the narrow, banana-shaped valley more efficiently, whereas Nelder--Mead can only contract its simplex slowly along the flat valley floor.
+\end{solution}
+
+
+\newpage
+% ══════════════════════════════════════════════════════════
+%  QUESTION 6 — Neural Networks & Dynamic Programming  [8 marks]
+% ══════════════════════════════════════════════════════════
+
+\section*{Question 6 --- Neural Networks and the Euler Equation \hfill [8 marks]}
+
+This question considers the use of neural networks to solve dynamic economic models, following the \emph{Deep Equilibrium Nets} approach applied to the Brock--Mirman (1972) optimal growth model.
+
+A social planner maximises lifetime utility:
+\[
+\max_{\{C_t\}_{t=0}^{\infty}} \sum_{t=0}^{\infty} \beta^t \ln(C_t) \qquad \text{s.t.} \quad K_{t+1} + C_t = K_t^{\alpha},
+\]
+where we assume full depreciation ($\delta=1$), so $Y_t = K_t^{\alpha}$ and $C_t = K_t^{\alpha} - K_{t+1}$.
+
+A feedforward neural network $\mathcal{N}(\cdot)$ approximates the \textbf{savings rate} $s_t = \mathcal{N}(K_t)$, so that $K_{t+1} = Y_t \cdot s_t$.
+
+\subsection*{Part (a) --- Neural network architecture \mkpts{3}}
+
+The network has the following architecture:
+\begin{itemize}[nosep]
+\item Input layer: 1 neuron (capital stock $K_t$)
+\item Hidden layer 1: 50 neurons, ReLU activation
+\item Hidden layer 2: 50 neurons, ReLU activation
+\item Output layer: 1 neuron, sigmoid activation
+\end{itemize}
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Compute the total number of trainable parameters (weights and biases) in this network.  Show the calculation for each layer.
+\item Explain why the sigmoid activation function ($\sigma(z) = 1/(1+e^{-z}) \in (0,1)$) is used in the output layer.  What economic constraint does this enforce on $s_t$, $C_t$, and $K_{t+1}$?
+\item If the sigmoid were replaced by a linear (identity) activation in the output layer, what could go wrong when evaluating the loss function?
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} Each dense layer has (inputs $\times$ outputs) weights plus (outputs) biases:
+
+\begin{tabular}{lrrr}
+\toprule
+Connection & Weights & Biases & Total \\
+\midrule
+Input $\to$ Hidden~1 ($1\times 50$) & 50 & 50 & 100 \\
+Hidden~1 $\to$ Hidden~2 ($50\times 50$) & 2500 & 50 & 2550 \\
+Hidden~2 $\to$ Output ($50\times 1$) & 50 & 1 & 51 \\
+\midrule
+\textbf{Grand total} & & & \textbf{2701} \\
+\bottomrule
+\end{tabular}
+
+\medskip
+
+\textbf{(ii)} The sigmoid ensures $s_t \in (0,1)$, which enforces two economic constraints.  First, $K_{t+1} = Y_t \cdot s_t > 0$, guaranteeing positive capital.  Second, $C_t = Y_t(1-s_t) > 0$, guaranteeing positive consumption.  Both are necessary because the utility function $\ln(C_t)$ is undefined for $C_t \le 0$.
+
+\medskip
+
+\textbf{(iii)} With a linear output, the network could predict $s_t > 1$ (implying $C_t = Y_t(1-s_t) < 0$, i.e.\ negative consumption) or $s_t < 0$ (implying negative investment).  The log utility $\ln(C_t)$ would be undefined, and the loss function computation would fail with a numerical error (log of a negative number).
+\end{solution}
+
+\subsection*{Part (b) --- Deriving the Euler equation \mkpts{3}}
+
+The Bellman equation for this problem (with $\delta=1$) is:
+\[
+V(K_t) = \max_{K_{t+1}} \;\ln\!\bigl(K_t^{\alpha} - K_{t+1}\bigr) + \beta\, V(K_{t+1}).
+\]
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item Take the first-order condition with respect to $K_{t+1}$.  Then apply the envelope theorem to express $V'(K_t)$ in terms of $C_t$ and $K_t$, and use this to eliminate $V'(K_{t+1})$ from the FOC.  Show that the Euler equation is:
+\[
+\frac{1}{C_t} = \beta\,\frac{\alpha\, K_{t+1}^{\alpha-1}}{C_{t+1}}\,.
+\]
+\item Rewrite this Euler equation as a \textbf{relative Euler equation error} (REE) that equals zero in equilibrium:
+\[
+\text{REE} = \frac{C_{t+1}}{C_t\,\beta\,\alpha\, K_{t+1}^{\alpha-1}} - 1\,.
+\]
+Explain in one sentence why $\text{mean}(\text{REE}^2)$ is a suitable training loss for the neural network.
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The FOC with respect to $K_{t+1}$:
+\[
+\frac{\partial}{\partial K_{t+1}}\Bigl[\ln\!\bigl(K_t^{\alpha}-K_{t+1}\bigr) + \beta V(K_{t+1})\Bigr] = 0 \quad\Longrightarrow\quad -\frac{1}{C_t} + \beta\,V'(K_{t+1}) = 0.\tag{$*$}
+\]
+
+By the envelope theorem, differentiate $V(K_t)$ w.r.t.\ $K_t$ (noting $K_{t+1}$ is optimal and its derivative vanishes by FOC):
+\[
+V'(K_t) = \frac{\alpha\,K_t^{\alpha-1}}{K_t^{\alpha}-K_{t+1}} = \frac{\alpha\,K_t^{\alpha-1}}{C_t}\,.
+\]
+
+Shifting one period forward: $V'(K_{t+1}) = \frac{\alpha\,K_{t+1}^{\alpha-1}}{C_{t+1}}$.
+
+Substituting back into ($*$):
+\[
+\frac{1}{C_t} = \beta\,\frac{\alpha\, K_{t+1}^{\alpha-1}}{C_{t+1}}\,.
+\]
+
+\textbf{(ii)} Rearranging the Euler equation:
+\[
+1 = \frac{C_{t+1}}{C_t\,\beta\,\alpha\, K_{t+1}^{\alpha-1}} \quad\Longrightarrow\quad \text{REE} = \frac{C_{t+1}}{C_t\,\beta\,\alpha\, K_{t+1}^{\alpha-1}} - 1.
+\]
+
+The mean squared REE is a suitable loss because it measures how far the neural network's policy deviates from optimality: when the policy is exactly optimal, the Euler equation holds for all states and $\text{REE}=0$ everywhere, so the loss is zero; during training, gradient descent drives the loss toward zero, pushing the neural network policy toward the true optimal policy.
+\end{solution}
+
+\subsection*{Part (c) --- Interpreting the training code \mkpts{2}}
+
+The following function computes the training loss for the neural network.  Assume \texttt{nn(K)} returns the predicted savings rate $s = \mathcal{N}(K)$.
+
+\begin{lstlisting}
+def compute_cost(K_t, nn, alpha=0.36, beta=0.99):
+    Y_t = K_t ** alpha                          # Line 2
+    s_t = nn(K_t)                               # Line 3
+    K_next = Y_t * s_t                          # Line 4
+    C_t = Y_t - Y_t * s_t                       # Line 5
+    Y_next = K_next ** alpha                    # Line 6
+    s_next = nn(K_next)                          # Line 7
+    C_next = Y_next - s_next * Y_next           # Line 8
+    R_next = alpha * K_next ** (alpha - 1)      # Line 9
+    REE = 1 - C_next / (beta * C_t * R_next)   # Line 10
+    return np.mean(REE ** 2)                    # Line 11
+\end{lstlisting}
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item The neural network \texttt{nn} is called \emph{twice} (Lines~3 and~7).  Explain the economic reason: what role does each call play in the Euler equation?
+\item If the neural network has perfectly learned the true optimal policy, what value should \texttt{compute\_cost} return?  What does the returned value represent when the network is \emph{not} yet fully trained?
+\end{enumerate}
+
+\begin{solution}
+\textbf{(i)} The Euler equation links consumption in \emph{two consecutive periods}, $C_t$ and $C_{t+1}$.  The first call (Line~3) computes today's savings rate $s_t = \mathcal{N}(K_t)$, which determines today's consumption $C_t$ and tomorrow's capital $K_{t+1}$.  The second call (Line~7) computes tomorrow's savings rate $s_{t+1} = \mathcal{N}(K_{t+1})$, which determines tomorrow's consumption $C_{t+1}$.  Both are needed because the Euler equation $1/C_t = \beta\,\alpha K_{t+1}^{\alpha-1}/C_{t+1}$ involves the policy at two different states.
+
+\medskip
+
+\textbf{(ii)} If the neural network has learned the true optimal policy, the Euler equation holds exactly for all states, so $\text{REE} = 0$ everywhere and \texttt{compute\_cost} returns $\boxed{0}$.  When the network is not yet fully trained, the returned value is the \textbf{mean squared relative Euler equation error} --- a positive number measuring how far, on average, the current policy violates the optimality condition.  A smaller value means the approximation is closer to the true solution.
+\end{solution}
+
+
+\vfill
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}\\[4pt]
+\textit{End of Examination}
+\end{center}
+
+\end{document}
